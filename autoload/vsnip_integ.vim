@@ -5,3 +5,9 @@ function! vsnip_integ#vim_lsp() abort
   augroup END
 endfunction
 
+function! vsnip_integ#lamp() abort
+  augroup vsnip_integ#lamp
+    autocmd!
+    autocmd User lamp#initialized call vsnip_integ#lamp#enable()
+  augroup END
+endfunction
