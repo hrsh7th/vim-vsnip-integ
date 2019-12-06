@@ -1,6 +1,7 @@
 function! vsnip_integ#vim_lsp() abort
-  if !exists('g:lsp_loaded')
-    return
-  endif
-  call vsnip_integ#vim_lsp#enable()
+  augroup vsnip_integ#vim_lsp
+    autocmd!
+    autocmd User lsp_setup call vsnip_integ#vim_lsp#enable()
+  augroup END
 endfunction
+

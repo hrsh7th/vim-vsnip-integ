@@ -8,6 +8,10 @@ This plugin provides below integrations.
 
 # Integrations.
 
+### vim-lsp
+- Support `completionItem/resolve` at `CompleteDone`.
+- Support textEdit/insertText.
+
 ### deoplete.nvim
 - Snippet completion.
 
