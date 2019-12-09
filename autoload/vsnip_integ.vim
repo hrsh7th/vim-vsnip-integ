@@ -1,13 +1,18 @@
 function! vsnip_integ#vim_lsp() abort
-  augroup vsnip_integ#vim_lsp
-    autocmd!
-    autocmd User lsp_setup call vsnip_integ#vim_lsp#enable()
-  augroup END
+  if exists('g:lsp_loaded')
+    call vsnip_integ#vim_lsp#enable()
+  endif
+endfunction
+
+function! vsnip_integ#vim_lsc() abort
+  if exists('g:loaded_lsc')
+    call vsnip_integ#vim_lsc#enable()
+  endif
 endfunction
 
 function! vsnip_integ#lamp() abort
-  augroup vsnip_integ#lamp
-    autocmd!
-    autocmd User lamp#initialized call vsnip_integ#lamp#enable()
-  augroup END
+  if exists('g:loaded_lamp')
+    call vsnip_integ#lamp#enable()
+  endif
 endfunction
+
