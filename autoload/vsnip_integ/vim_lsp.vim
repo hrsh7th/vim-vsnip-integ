@@ -65,8 +65,8 @@ function! s:resolve_completion_item(server_name, completion_item) abort
 
   let l:fn = {}
   let l:fn.response = {}
-  function! l:fn.callback(response) abort
-    let self.response = a:response
+  function! l:fn.callback(data) abort
+    let self.response = a:data['response']
   endfunction
 
   call lsp#send_request(a:server_name, {
@@ -86,7 +86,7 @@ function! s:resolve_completion_item(server_name, completion_item) abort
     return a:completion_item
   endif
 
-  return l:fn.response.response.result
+  return l:fn.response.result
 endfunction
 
 "
