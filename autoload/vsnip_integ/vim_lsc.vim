@@ -1,6 +1,6 @@
 function! vsnip_integ#vim_lsc#enable() abort
   let g:lsc_enable_snippet_support = v:true
-  augroup vsnip_integ_vim_lsc
+  augroup vsnip_integ#vim_lsc
     autocmd!
     autocmd CompleteDone * call s:on_complete_done()
   augroup END

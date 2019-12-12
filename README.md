@@ -18,9 +18,35 @@ This plugin provides below integrations.
 
 
 ### [vim-lamp](https://github.com/hrsh7th/vim-lamp)
-- Support snippet support for completion.
+- Snippet support.
 
 
 ### [deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 - Snippet completion.
+
+### [deoplete-lsp](https://github.com/Shougo/deoplete-lsp)
+- Support textEdit/insertText at CompleteDone.
+
+
+# Development
+
+### sample vimrc configuration for `deoplete-lsp`
+
+```viml
+lua require'nvim_lsp'.gopls.setup{
+      \   capabilities = {
+      \     textDocument = {
+      \       completion = {
+      \         completionItem = {
+      \           snippetSupport = true
+      \         }
+      \       }
+      \     }
+      \   },
+      \   init_options = {
+      \     usePlaceholders = true,
+      \     completeUnimported = true
+      \   }
+      \ }
+```
 
