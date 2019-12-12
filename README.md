@@ -19,6 +19,7 @@ This plugin provides below integrations.
 
 ### [vim-lamp](https://github.com/hrsh7th/vim-lamp)
 - Snippet support.
+- vim-lamp has already supported textEdit/additionalTextEdit/executeCommand/floatinw-docs.
 
 
 ### [deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
