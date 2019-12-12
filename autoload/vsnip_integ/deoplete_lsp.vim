@@ -1,7 +1,7 @@
 let s:context = {}
 
 function! vsnip_integ#deoplete_lsp#enable() abort
-  augroup vsnip_integ_vim_lsc
+  augroup vsnip_integ#deoplete_lsp
     autocmd!
     autocmd CompleteDone * call s:on_complete_done()
   augroup END

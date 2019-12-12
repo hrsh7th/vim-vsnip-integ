@@ -3,7 +3,7 @@ function! vsnip_integ#vim_lsp#enable() abort
   let g:lsp_get_supported_capabilities = [function('s:get_supported_capabilities')]
   let g:lsp_get_vim_completion_item = [function('s:get_vim_completion_item')]
 
-  augroup vsnip_integ_vim_lsp
+  augroup vsnip_integ#vim_lsp
     autocmd!
     autocmd User lsp_complete_done call s:on_complete_done()
   augroup END
