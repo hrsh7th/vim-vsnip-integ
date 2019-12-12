@@ -1,3 +1,5 @@
+let s:context = {}
+
 function! vsnip_integ#vim_lsc#enable() abort
   let g:lsc_enable_snippet_support = v:true
   augroup vsnip_integ#vim_lsc
@@ -24,30 +26,65 @@ function! s:on_complete_done() abort
     return
   endif
 
-  let l:fn = {}
-  let l:fn.line = getline('.')
-  let l:fn.completed_item = v:completed_item
-  let l:fn.snippet = l:user_data.snippet
-  function! l:fn.next_tick() abort
-    call s:clear_inserted_text(self.line, self.completed_item)
-    call vsnip#anonymous(self.snippet)
-  endfunction
-  call timer_start(0, { -> l:fn.next_tick() })
+  let s:context.curpos = getcurpos()
+  let s:context.line = getline('.')
+  let s:context.completed_item = copy(v:completed_item)
+  let s:context.snippet = l:user_data.snippet
+  call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'nt')
+endfunction
+
+"
+" on_complete_done_after
+"
+function! s:on_complete_done_after() abort
+  let l:curpos = s:context.curpos
+  let l:line = s:context.line
+  let l:completed_item = s:context.completed_item
+  let l:snippet = s:context.snippet
+
+  " <BS> or <C-h>
+  if strlen(getline('.')) < strlen(l:line)
+    return ''
+  endif
+
+  call s:clear_inserted_text(l:curpos, l:line, l:completed_item)
+  call vsnip#anonymous(l:snippet)
+
+  return ''
 endfunction
 
 "
 " s:clear_inserted_text
 "
-function! s:clear_inserted_text(line, completed_item) abort
-  let l:before_text = a:line[0 : col('.') - 3]
-  let l:remove_start = strlen(l:before_text) - strlen(a:completed_item.word) - 1
-  let l:remove_end = strlen(l:before_text)
+function! s:clear_inserted_text(curpos, line, completed_item) abort
+  " remove last inserted characters.
+  call setline('.', a:line)
 
-  let l:line = ''
-  let l:line .= a:line[0 : l:remove_start]
-  let l:line .= a:line[l:remove_end : - 1]
+  " remove completed string.
+  let l:range = {
+        \   'start': {
+        \     'line': a:curpos[1] - 1,
+        \     'character': (a:curpos[2] + a:curpos[3]) - strlen(a:completed_item.word) - 1
+        \   },
+        \   'end': {
+        \     'line': a:curpos[1] - 1,
+        \     'character': (a:curpos[2] + a:curpos[3]) - 1
+        \   }
+        \ }
 
-  call setline('.', l:line)
-  call cursor('.', l:remove_start + 2)
+  call vsnip#edits#text_edit#apply(bufnr('%'), [{
+        \   'range': l:range,
+        \   'newText': ''
+        \ }])
+
+  " move to complete start position.
+  call cursor([l:range.start.line + 1, l:range.start.character + 1])
 endfunction
+
+"
+" SID
+"
+function! s:SID() abort
+  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+endfun
 

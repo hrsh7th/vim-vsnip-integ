@@ -30,7 +30,7 @@ function! s:on_complete_done() abort
   let s:context.line = getline('.')
   let s:context.completed_item = copy(v:completed_item)
   let s:context.completion_item = l:user_data.deoplete_lsp.item
-  call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'n')
+  call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'nt')
 endfunction
 
 "
@@ -41,6 +41,11 @@ function! s:on_complete_done_after() abort
   let l:line = s:context.line
   let l:completed_item = s:context.completed_item
   let l:completion_item = s:context.completion_item
+
+  " Check <BS> or <C-h>
+  if strlen(getline('.')) < strlen(l:line)
+    return ''
+  endif
 
   let l:expand_text = s:get_expand_text(l:completed_item, l:completion_item)
   if strlen(l:expand_text) > 0
@@ -66,11 +71,11 @@ function! s:clear_inserted_text(curpos, line, completed_item, completion_item) a
   let l:range = {
         \   'start': {
         \     'line': a:curpos[1] - 1,
-        \     'character': a:curpos[2] - strlen(a:completed_item.word) - 1
+        \     'character': (a:curpos[2] + a:curpos[3]) - strlen(a:completed_item.word) - 1
         \   },
         \   'end': {
         \     'line': a:curpos[1] - 1,
-        \     'character': a:curpos[2] - 1
+        \     'character': (a:curpos[2] + a:curpos[3]) - 1
         \   }
         \ }
   if has_key(a:completion_item, 'textEdit')
@@ -79,7 +84,7 @@ function! s:clear_inserted_text(curpos, line, completed_item, completion_item) a
           \   a:completion_item.textEdit.range.start.character
           \ ])
     let l:range.end.character = max([
-          \   l:range.start.character,
+          \   l:range.end.character,
           \   a:completion_item.textEdit.range.end.character
           \ ])
   endif
