@@ -3,6 +3,7 @@
 This plugin provides some other plugins integration.
 
 LSP spec has `textDocument/completion` feature that add ability inteligent completion to vim.
+
 The feature will returns `CompletionItem` that has `textEdit/additionalTextEdits` and support snippet text.
 
 - textEdit
