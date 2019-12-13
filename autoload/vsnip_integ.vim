@@ -17,8 +17,11 @@ function! vsnip_integ#lamp() abort
 endfunction
 
 function! vsnip_integ#deoplete_lsp() abort
-  if has('nvim') && luaeval('require("deoplete").request_candidates ~= nil')
-    call vsnip_integ#deoplete_lsp#enable()
-  endif
+  try
+    if has('nvim') && luaeval('require("deoplete").request_candidates ~= nil')
+      call vsnip_integ#deoplete_lsp#enable()
+    endif
+  catch /.*/
+  endtry
 endfunction
 
