@@ -22,14 +22,14 @@ function! s:on_complete_done() abort
   catch /.*/
     let l:user_data = {}
   endtry
-  if empty(l:user_data) || !has_key(l:user_data, 'deoplete_lsp') || !has_key(l:user_data.deoplete_lsp, 'item')
+  if empty(l:user_data) || !has_key(l:user_data, 'lspitem')
     return
   endif
 
   let s:context.curpos = getcurpos()
   let s:context.line = getline('.')
   let s:context.completed_item = copy(v:completed_item)
-  let s:context.completion_item = l:user_data.deoplete_lsp.item
+  let s:context.completion_item = l:user_data.lspitem
   call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'nt')
 endfunction
 
