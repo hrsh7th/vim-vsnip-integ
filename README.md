@@ -1,32 +1,43 @@
-# vim-vsnip-integ.
+# vim-vsnip-integ
 
-This plugin provides below integrations.
+This plugin provides some other plugins integration.
 
-# Requirements.
+LSP spec has `textDocument/completion` feature that add ability inteligent completion to vim.
+The feature will returns `CompletionItem` that has `textEdit/additionalTextEdits` and support snippet text.
+
+- textEdit
+    - To enable complex completion.
+    - For example, completion done on `     </div#>` then the server can correct indent size.    
+- additionalTextEdits
+    - To enable auto-import for some other modules/packages.
+
+This plugins may enables `textEdit/additionalTextEdits` if it possible.
+
+# Requirements
 
 - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
 
-# Integrations.
+# Integrations
 
 ### [vim-lsp](https://github.com/prabirshrestha/vim-lsp)
 - Support `completionItem/resolve` at `CompleteDone`.
-- Support textEdit/insertText.
+- Support textEdit/additionalTextEdits.
 
 
 ### [vim-lsc](https://github.com/natebosch/vim-lsc)
-- Support `v:completed_item.user_data.snippet`.
+- Support snippet text expansion.
 
 
 ### [vim-lamp](https://github.com/hrsh7th/vim-lamp)
-- Snippet support.
-- vim-lamp has already supported textEdit/additionalTextEdit/executeCommand/floatinw-docs.
+- Support snippet text expansion.
+- vim-lamp has already supported textEdit/additionalTextEdits/executeCommand/floatinw-docs.
 
 
 ### [deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 - Snippet completion.
 
 ### [deoplete-lsp](https://github.com/Shougo/deoplete-lsp)
-- Support textEdit/insertText at CompleteDone.
+- Support textEdit/additionalTextEdits at CompleteDone.
 
 
 # Development
