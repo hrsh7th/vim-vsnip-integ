@@ -30,7 +30,7 @@ function! s:on_complete_done() abort
   let s:context.line = getline('.')
   let s:context.completed_item = copy(v:completed_item)
   let s:context.completion_item = l:user_data.lspitem
-  call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'nt')
+  call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'n')
 endfunction
 
 "
