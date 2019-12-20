@@ -8,6 +8,7 @@ function! s:initialize(timer_id) abort
   call vsnip_integ#vim_lsc()
   call vsnip_integ#lamp()
   call vsnip_integ#deoplete_lsp()
+  call vsnip_integ#asyncomplete()
 endfunction
 call timer_start(0, function('s:initialize'))
 

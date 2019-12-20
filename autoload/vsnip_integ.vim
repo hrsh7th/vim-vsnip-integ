@@ -25,3 +25,9 @@ function! vsnip_integ#deoplete_lsp() abort
   endtry
 endfunction
 
+function! vsnip_integ#asyncomplete() abort
+  if exists('g:asyncomplete_loaded')
+    call vsnip_integ#asyncomplete#enable()
+  endif
+endfunction
+
