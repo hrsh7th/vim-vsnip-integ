@@ -103,6 +103,10 @@ function! s:resolve_completion_item(server_name, completion_item) abort
     return a:completion_item
   endif
 
+  if empty(l:fn.response.result)
+    return a:completion_item
+  endif
+
   return l:fn.response.result
 endfunction
 
