@@ -1,24 +1,24 @@
 function! vsnip_integ#vim_lsp() abort
-  if exists('g:lsp_loaded')
+  if g:vsnip_integ_config.vim_lsp && s:exists('autoload/lsp.vim')
     call vsnip_integ#vim_lsp#enable()
   endif
 endfunction
 
 function! vsnip_integ#vim_lsc() abort
-  if exists('g:loaded_lsc')
+  if g:vsnip_integ_config.vim_lsc && s:exists('plugin/lsc.vim')
     call vsnip_integ#vim_lsc#enable()
   endif
 endfunction
 
 function! vsnip_integ#lamp() abort
-  if exists('g:loaded_lamp')
+  if g:vsnip_integ_config.lamp && s:exists('autoload/lamp.vim')
     call vsnip_integ#lamp#enable()
   endif
 endfunction
 
 function! vsnip_integ#deoplete_lsp() abort
   try
-    if has('nvim') && luaeval('require("deoplete").request_candidates ~= nil')
+    if g:vsnip_integ_config.deoplete_lsp && has('nvim') && luaeval('require("deoplete").request_candidates ~= nil')
       call vsnip_integ#deoplete_lsp#enable()
     endif
   catch /.*/
@@ -26,8 +26,12 @@ function! vsnip_integ#deoplete_lsp() abort
 endfunction
 
 function! vsnip_integ#asyncomplete() abort
-  if exists('g:asyncomplete_loaded')
+  if g:vsnip_integ_config.asyncomplete && s:exists('autoload/asyncomplete.vim')
     call vsnip_integ#asyncomplete#enable()
   endif
+endfunction
+
+function! s:exists(filepath) abort
+  return !empty(globpath(&runtimepath, a:filepath))
 endfunction
 
