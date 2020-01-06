@@ -14,6 +14,15 @@ endfunction
 " asyncomplete#sources#vsnip#completor
 "
 function! asyncomplete#sources#vsnip#completor(opts, ctx)
+  let l:before_line = getline('.')
+  let l:idx = min([strlen(l:before_line), col('.') - 2])
+  let l:idx = max([l:idx, 0])
+  let l:before_line =  l:before_line[0 : l:idx]
+
+  if len(matchstr(l:before_line, s:get_keyword_pattern() . '$')) < 1
+    return
+  endif
+
   let l:candidates = []
 
   for l:source in vsnip#source#find(&filetype)
@@ -41,5 +50,16 @@ function! asyncomplete#sources#vsnip#completor(opts, ctx)
         \   a:ctx.col - strlen(matchstr(a:ctx.typed, '\k*$')),
         \   l:candidates
         \ )
+endfunction
+
+"
+" get_keyword_pattern
+"
+function! s:get_keyword_pattern() abort
+  let l:keywords = split(&iskeyword, ',')
+  let l:keywords = filter(l:keywords, { _, k -> match(k, '\d\+-\d\+') == -1 })
+  let l:keywords = filter(l:keywords, { _, k -> k !=# '@' })
+  let l:pattern = '\%(' . join(map(l:keywords, { _, v -> '\V' . escape(v, '\') . '\m' }), '\|') . '\|\w\)*'
+  return l:pattern
 endfunction
 
