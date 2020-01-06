@@ -1,5 +1,3 @@
-let s:context = {}
-
 function! vsnip_integ#vim_lsp#enable() abort
   let g:lsp_text_edit_enabled = v:true
   let g:lsp_get_supported_capabilities = [function('s:get_supported_capabilities')]
@@ -27,12 +25,5 @@ function! s:get_supported_capabilities(server_info) abort
   let l:capabilities.textDocument.completion.completionItem.snippetSupport = v:true
 
   return l:capabilities
-endfunction
-
-"
-" SID
-"
-function! s:SID() abort
-  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
 endfunction
 
