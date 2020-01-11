@@ -13,7 +13,8 @@ class Source(Base):
         self.vars = {}
 
     def gather_candidates(self, context):
-        if self.vim.vars['vsnip_integ_config.deoplete']:
+        config = self.vim.vars['vsnip_integ_config']
+        if config and config['deoplete']:
             return self.to_candidates(self.vim.call('vsnip#source#find', context['filetype']))
         return []
 
