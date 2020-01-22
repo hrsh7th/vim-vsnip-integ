@@ -50,11 +50,14 @@ function! s:on_complete_done_after() abort
   let l:expand_text = s:get_expand_text(l:completed_item, l:completion_item)
   if strlen(l:expand_text) > 0
     call s:clear_inserted_text(l:curpos, l:line, l:completed_item, l:completion_item)
-    call vsnip#anonymous(l:expand_text)
   endif
 
   if has_key(l:completion_item, 'additionalTextEdits')
     call vsnip#edits#text_edit#apply(bufnr('%'), l:completion_item.additionalTextEdits)
+  endif
+
+  if strlen(l:expand_text) > 0
+    call vsnip#anonymous(l:expand_text)
   endif
 
   return ''
