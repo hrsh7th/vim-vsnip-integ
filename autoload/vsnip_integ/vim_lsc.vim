@@ -1,3 +1,5 @@
+let s:TextEdit = vital#vsnip#import('VS.LSP.TextEdit')
+
 let s:context = {}
 
 function! vsnip_integ#vim_lsc#enable() abort
@@ -72,7 +74,7 @@ function! s:clear_inserted_text(curpos, line, completed_item) abort
         \   }
         \ }
 
-  call vsnip#edits#text_edit#apply(bufnr('%'), [{
+  call s:TextEdit.apply(bufnr('%'), [{
         \   'range': l:range,
         \   'newText': ''
         \ }])

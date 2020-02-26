@@ -1,3 +1,5 @@
+let s:TextEdit = vital#vsnip#import('VS.LSP.TextEdit')
+
 let s:context = {}
 
 function! vsnip_integ#deoplete_lsp#enable() abort
@@ -53,7 +55,7 @@ function! s:on_complete_done_after() abort
   endif
 
   if has_key(l:completion_item, 'additionalTextEdits')
-    call vsnip#edits#text_edit#apply(bufnr('%'), l:completion_item.additionalTextEdits)
+    call s:TextEdit.apply(bufnr('%'), l:completion_item.additionalTextEdits)
   endif
 
   if strlen(l:expand_text) > 0
@@ -91,7 +93,7 @@ function! s:clear_inserted_text(curpos, line, completed_item, completion_item) a
           \   a:completion_item.textEdit.range.end.character
           \ ])
   endif
-  call vsnip#edits#text_edit#apply(bufnr('%'), [{
+  call s:TextEdit.apply(bufnr('%'), [{
         \   'range': l:range,
         \   'newText': ''
         \ }])
