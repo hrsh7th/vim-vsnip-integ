@@ -1,7 +1,6 @@
 let s:context = {}
 
 function! vsnip_integ#nvim_lsp#enable() abort
-  echomsg 'enabled'
   augroup vsnip_integ#nvim_lsp
     autocmd!
     autocmd CompleteDone * call s:on_complete_done()
