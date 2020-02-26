@@ -49,3 +49,8 @@ VARIABLE                                                *vsnip-integ-variable*
     Enable or disable |deoplete| integration.
 
 
+>
+  let g:vsnip_integ_config.mucomplete = v:true
+<
+    Enable or disable |mucomplete| integration.
+

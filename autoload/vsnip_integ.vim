@@ -31,6 +31,12 @@ function! vsnip_integ#asyncomplete() abort
   endif
 endfunction
 
+function! vsnip_integ#mucomplete() abort
+  if g:vsnip_integ_config.mucomplete && s:exists('autoload/mucomplete.vim')
+    call vsnip_integ#mucomplete#enable()
+  endif
+endfunction
+
 function! s:exists(filepath) abort
   return !empty(globpath(&runtimepath, a:filepath))
 endfunction

@@ -14,9 +14,11 @@ The feature will returns `CompletionItem` that has `textEdit/additionalTextEdits
 
 This plugins may enables `textEdit/additionalTextEdits` if it possible.
 
+
 # Requirements
 
 - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+
 
 # Integrations
 
@@ -26,26 +28,26 @@ This plugins may enables `textEdit/additionalTextEdits` if it possible.
 - Support `completionItem/resolve` at `CompleteDone`.
 - Support textEdit/additionalTextEdits.
 
-
 #### [vim-lsc](https://github.com/natebosch/vim-lsc)
 - Support snippet text expansion.
-
 
 #### [vim-lamp](https://github.com/hrsh7th/vim-lamp)
 - Support snippet text expansion.
 - vim-lamp has already supported textEdit/additionalTextEdits/executeCommand/floatinw-docs.
 
-
 #### [deoplete-lsp](https://github.com/Shougo/deoplete-lsp)
 - Support textEdit/additionalTextEdits at CompleteDone.
+
 
 ### Snippet Completion
 
 #### [deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 - Snippet completion.
 
-
 #### [asyncomplete.vim](https://github.com/prabirshrestha/asyncomplete.vim)
+- Snippet completion.
+
+#### [vim-mucomplete](https://github.com/lifepillar/vim-mucomplete)
 - Snippet completion.
 
 
