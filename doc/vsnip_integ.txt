@@ -38,6 +38,12 @@ VARIABLE                                                *vsnip-integ-variable*
 
 
 >
+  let g:vsnip_integ_config.nvim_lsp = v:true
+<
+    Enable or disable |nvim-lsp|'s omnifunc integration.
+
+
+>
   let g:vsnip_integ_config.asyncomplete = v:true
 <
     Enable or disable |asyncomplete| integration.
