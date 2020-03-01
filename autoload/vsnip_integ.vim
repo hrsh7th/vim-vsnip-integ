@@ -31,6 +31,13 @@ function! vsnip_integ#nvim_lsp() abort
   endif
 endfunction
 
+function! vsnip_integ#language_client_neovim() abort
+  if g:vsnip_integ_config.language_client_neovim && s:exists('autoload/LanguageClient.vim')
+    call vsnip_integ#language_client_neovim#enable()
+  endif
+endfunction
+
+
 function! vsnip_integ#asyncomplete() abort
   if g:vsnip_integ_config.asyncomplete && s:exists('autoload/asyncomplete.vim')
     call vsnip_integ#asyncomplete#enable()
