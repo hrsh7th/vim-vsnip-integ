@@ -28,6 +28,9 @@ This plugin provides some plugins integration.
 - Support snippet text expansion.
 - Support textEdit/additionalTextEdits at CompleteDone.
 
+#### [LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim)
+- Support snippet text expansion.
+
 
 ### Snippet Completion
 
