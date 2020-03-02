@@ -24,9 +24,11 @@ call vsnip_integ#language_client_neovim()
 let g:vsnip_integ_config.asyncomplete = get(g:vsnip_integ_config, 'asyncomplete', v:true)
 let g:vsnip_integ_config.deoplete = get(g:vsnip_integ_config, 'deoplete', v:true)
 let g:vsnip_integ_config.mucomplete = get(g:vsnip_integ_config, 'mucomplete', v:true)
+let g:vsnip_integ_config.auto_expand = get(g:vsnip_integ_config, 'auto_expand', v:false)
 
 call vsnip_integ#asyncomplete()
 call vsnip_integ#mucomplete()
+call vsnip_integ#auto_expand()
 
 " NOTE: Checking enabled of deoplete is in vsnip.py
 

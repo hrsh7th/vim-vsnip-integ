@@ -22,7 +22,12 @@ function! mucomplete#vsnip#complete() abort
               \   'word': l:prefix,
               \   'abbr': l:prefix,
               \   'kind': 'Snippet',
-              \   'menu': l:snippet.label
+              \   'menu': l:snippet.label,
+              \   'user_data': json_encode({
+              \     'vsnip_integ': {
+              \       'snippet': l:snippet.body
+              \     }
+              \   })
               \ }
 
         if has_key(l:snippet, 'description') && strlen(l:snippet.description) > 0
