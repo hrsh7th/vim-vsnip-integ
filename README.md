@@ -32,7 +32,7 @@ This plugin provides some plugins integration.
 - Support snippet text expansion.
 
 
-### Snippet Completion
+### Completion
 
 #### [deoplete.nvim](https://github.com/Shougo/deoplete.nvim)
 - Snippet completion.
@@ -42,6 +42,13 @@ This plugin provides some plugins integration.
 
 #### [vim-mucomplete](https://github.com/lifepillar/vim-mucomplete)
 - Snippet completion.
+
+
+### Other feature
+
+#### `let g:vsnip_integ_config.auto_expand = v:false`
+- Automatic snippet expansion when CompleteDone.
+
 
 
 # Development

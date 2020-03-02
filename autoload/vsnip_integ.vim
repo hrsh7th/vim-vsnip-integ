@@ -1,3 +1,9 @@
+function! vsnip_integ#auto_expand() abort
+  if g:vsnip_integ_config.auto_expand
+    call vsnip_integ#auto_expand#enable()
+  endif
+endfunction
+
 function! vsnip_integ#vim_lsp() abort
   if g:vsnip_integ_config.vim_lsp && s:exists('autoload/lsp.vim')
     call vsnip_integ#vim_lsp#enable()

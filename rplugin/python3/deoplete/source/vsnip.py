@@ -1,5 +1,5 @@
+import json
 from deoplete.source.base import Base
-
 
 class Source(Base):
     def __init__(self, vim):
@@ -29,6 +29,11 @@ class Source(Base):
                         'abbr': prefix,
                         'menu': 'Snippet',
                         'info': snippet['label']
+                        'user_data': json.dumps({
+                          'vsnip_integ': {
+                            'snippet': l:snippet.body
+                          }
+                        })
                     }
                     if 'description' in snippet and len(snippet['description']) > 0:
                         candidate['info'] += ': {}'.format(snippet['description'])
