@@ -10,7 +10,7 @@ let g:vsnip_integ_config.vim_lsp = get(g:vsnip_integ_config, 'vim_lsp', v:true)
 let g:vsnip_integ_config.vim_lsc = get(g:vsnip_integ_config, 'vim_lsc', v:true)
 let g:vsnip_integ_config.lamp = get(g:vsnip_integ_config, 'lamp', v:true)
 let g:vsnip_integ_config.deoplete_lsp = get(g:vsnip_integ_config, 'deoplete_lsp', v:true)
-let g:vsnip_integ_config.nvim_lsp = get(g:vsnip_integ_config, 'nvim_lsp', v:true)
+let g:vsnip_integ_config.nvim_lsp = get(g:vsnip_integ_config, 'nvim_lsp', v:false)
 let g:vsnip_integ_config.language_client_neovim = get(g:vsnip_integ_config, 'language_client_neovim', v:true)
 
 call vsnip_integ#vim_lsp()
