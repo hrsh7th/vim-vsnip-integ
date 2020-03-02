@@ -4,6 +4,8 @@ let s:TextEdit = vital#vsnip#import('VS.LSP.TextEdit')
 " vsnip_integ#_#on_complete_done_after
 "
 function! vsnip_integ#_#on_complete_done_after(curpos, line, completed_item, completion_item) abort
+  echo ''
+
   " Check <BS> or <C-h>
   if strlen(getline('.')) < strlen(a:line)
     return ''
@@ -73,5 +75,13 @@ function! vsnip_integ#_#get_expand_text(completed_item, completion_item) abort
   elseif has_key(a:completion_item, 'insertText')
     let l:text = a:completion_item.insertText
   endif
-  return l:text != a:completed_item.word ? l:text : ''
+
+  if l:text !=# a:completed_item.word
+    return l:text
+  endif
+  if get(a:completion_item, 'insertTextFormat', 1) == 2
+    return l:text
+  endif
+  return ''
 endfunction
+
