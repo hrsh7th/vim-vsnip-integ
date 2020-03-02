@@ -1,8 +1,8 @@
 let s:context = {}
 
-function! vsnip_integ#vim_lsc#enable() abort
-  let g:lsc_enable_snippet_support = v:true
-  augroup vsnip_integ#vim_lsc
+function! vsnip_integ#language_client_neovim#enable() abort
+  let g:LanguageClient_hasSnippetSupport = v:true
+  augroup vsnip_integ#language_client_neovim
     autocmd!
     autocmd CompleteDone * call s:on_complete_done()
   augroup END
@@ -22,14 +22,14 @@ function! s:on_complete_done() abort
     let l:user_data = {}
   endtry
 
-  if empty(l:user_data) || !has_key(l:user_data, 'snippet_trigger') || !has_key(l:user_data, 'snippet')
+  if empty(l:user_data) || !has_key(l:user_data, 'lspitem')
     return
   endif
 
   let s:context.curpos = getcurpos()
   let s:context.line = getline('.')
   let s:context.completed_item = copy(v:completed_item)
-  let s:context.snippet = l:user_data.snippet
+  let s:context.completion_item = l:user_data.lspitem
   call feedkeys(printf("\<C-r>=<SNR>%d_on_complete_done_after()\<CR>", s:SID()), 'n')
 endfunction
 
@@ -37,20 +37,12 @@ endfunction
 " on_complete_done_after
 "
 function! s:on_complete_done_after() abort
-  let l:curpos = s:context.curpos
-  let l:line = s:context.line
-  let l:completed_item = s:context.completed_item
-  let l:snippet = s:context.snippet
-
-  " <BS> or <C-h>
-  if strlen(getline('.')) < strlen(l:line)
-    return ''
-  endif
-
-  call vsnip_integ#_#clear_inserted_text(l:curpos, l:line, l:completed_item)
-  call vsnip#anonymous(l:snippet)
-
-  return ''
+  return vsnip_integ#_#on_complete_done_after(
+  \   s:context.curpos,
+  \   s:context.line,
+  \   s:context.completed_item,
+  \   s:context.completion_item
+  \ )
 endfunction
 
 "

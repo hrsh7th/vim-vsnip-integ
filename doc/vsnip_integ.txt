@@ -38,6 +38,20 @@ VARIABLE                                                *vsnip-integ-variable*
 
 
 >
+  let g:vsnip_integ_config.nvim_lsp = v:false
+<
+    Enable or disable |nvim-lsp|'s omnifunc integration.
+
+    NOTE: This integration currently not working. It is reserved flag.
+
+
+>
+  let g:vsnip_integ_config.language_client_neovim = v:true
+<
+    Enable or disable |language-client-neovim| integration.
+
+
+>
   let g:vsnip_integ_config.asyncomplete = v:true
 <
     Enable or disable |asyncomplete| integration.
