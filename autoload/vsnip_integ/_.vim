@@ -4,6 +4,8 @@ let s:TextEdit = vital#vsnip#import('VS.LSP.TextEdit')
 " vsnip_integ#_#on_complete_done_after
 "
 function! vsnip_integ#_#on_complete_done_after(curpos, line, completed_item, completion_item) abort
+  echo ''
+
   " Check <BS> or <C-h>
   if strlen(getline('.')) < strlen(a:line)
     return ''
