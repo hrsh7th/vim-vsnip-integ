@@ -36,6 +36,8 @@ endfunction
 " on_complete_done_after
 "
 function! s:on_complete_done_after() abort
+  echo ''
+
   let l:curpos = s:context.curpos
   let l:line = s:context.line
   let l:completed_item = s:context.completed_item
