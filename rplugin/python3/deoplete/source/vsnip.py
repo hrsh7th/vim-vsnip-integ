@@ -28,10 +28,10 @@ class Source(Base):
                         'word': prefix,
                         'abbr': prefix,
                         'menu': 'Snippet',
-                        'info': snippet['label']
+                        'info': snippet['label'],
                         'user_data': json.dumps({
                           'vsnip_integ': {
-                            'snippet': l:snippet.body
+                            'snippet': snippet['body']
                           }
                         })
                     }
