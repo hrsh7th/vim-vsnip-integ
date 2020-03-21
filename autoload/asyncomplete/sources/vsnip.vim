@@ -33,6 +33,7 @@ function! asyncomplete#sources#vsnip#completor(opts, ctx)
               \   'abbr': l:prefix,
               \   'kind': 'Snippet',
               \   'menu': l:snippet.label,
+              \   'dup': 1,
               \   'user_data': json_encode({
               \     'vsnip_integ': {
               \       'snippet': l:snippet.body

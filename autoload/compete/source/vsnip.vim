@@ -1,28 +1,29 @@
-function! mucomplete#vsnip#complete() abort
-  let l:before_line = getline('.')
-  let l:idx = min([strlen(l:before_line), col('.') - 2])
-  let l:idx = max([l:idx, 0])
-  let l:before_line =  l:before_line[0 : l:idx]
-  let l:keyword = matchstr(l:before_line, '\k\+$')
+"
+" compete#source#vsnip#register
+"
+function! compete#source#vsnip#register() abort
+  call compete#source#register({
+  \   'name': 'vsnip',
+  \   'complete': function('s:complete'),
+  \   'priority': 10,
+  \   'filetypes': ['*'],
+  \ })
+endfunction
 
-  if l:keyword == ''
-    return ''
-  endif
-
+"
+" complete
+"
+function! s:complete(context, callback) abort
   let l:candidates = []
 
   for l:source in vsnip#source#find(&filetype)
     for l:snippet in l:source
       for l:prefix in l:snippet.prefix
-        if l:prefix !~# '^' . l:keyword
-          continue
-        endif
-
         let l:candidate = {
               \   'word': l:prefix,
               \   'abbr': l:prefix,
-              \   'kind': 'Snippet',
-              \   'menu': l:snippet.label,
+              \   'kind': join(['Snippet', l:snippet.label, l:snippet.description], ' '),
+              \   'menu': '[v]',
               \   'dup': 1,
               \   'user_data': json_encode({
               \     'vsnip_integ': {
@@ -40,10 +41,8 @@ function! mucomplete#vsnip#complete() abort
     endfor
   endfor
 
-  if !empty(l:candidates)
-    call complete(col('.') - strlen(l:keyword), l:candidates)
-  endif
-
-  return ''
+  call a:callback({
+  \   'items': l:candidates
+  \ })
 endfunction
 

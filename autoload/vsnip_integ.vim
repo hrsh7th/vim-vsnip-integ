@@ -56,6 +56,12 @@ function! vsnip_integ#mucomplete() abort
   endif
 endfunction
 
+function! vsnip_integ#compete() abort
+  if g:vsnip_integ_config.compete && s:exists('autoload/compete.vim')
+    call vsnip_integ#compete#enable()
+  endif
+endfunction
+
 function! s:exists(filepath) abort
   return !empty(globpath(&runtimepath, a:filepath))
 endfunction

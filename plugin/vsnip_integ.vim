@@ -17,6 +17,7 @@ let g:vsnip_integ_config.language_client_neovim = get(g:vsnip_integ_config, 'lan
 let g:vsnip_integ_config.asyncomplete = get(g:vsnip_integ_config, 'asyncomplete', v:true)
 let g:vsnip_integ_config.deoplete = get(g:vsnip_integ_config, 'deoplete', v:true)
 let g:vsnip_integ_config.mucomplete = get(g:vsnip_integ_config, 'mucomplete', v:true)
+let g:vsnip_integ_config.compete = get(g:vsnip_integ_config, 'compete', v:true)
 
 " Feature flag.
 let g:vsnip_integ_config.auto_expand = get(g:vsnip_integ_config, 'auto_expand', v:false)
@@ -30,6 +31,7 @@ call vsnip_integ#language_client_neovim()
 
 call vsnip_integ#asyncomplete()
 call vsnip_integ#mucomplete()
+call vsnip_integ#compete()
 " deoplete integration will enable or disable in vsnip.py.
 
 call vsnip_integ#auto_expand()
