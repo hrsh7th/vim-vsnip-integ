@@ -4,20 +4,20 @@ let s:context = {}
 " context.completed_item ... v:completed_item
 " context.completion_item ... CompletionItem
 "
-function! vsnip_integ#on_complete_done(context) abort
+function! vsnip_integ#on_complete_done_for_lsp(context) abort
   let s:context = {}
   let s:context.curpos = getcurpos()
   let s:context.line = getline('.')
   let s:context.completed_item = a:context.completed_item
   let s:context.completion_item = a:context.completion_item
-  call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
+  call feedkeys("\<Plug>(vsnip_integ:complete_done_for_lsp)")
 endfunction
 
 "
-" s:on_complete_done_after
+" s:complete_done_for_lsp
 "
-inoremap <silent> <Plug>(vsnip_integ:on_complete_done_after) <C-r>=<SID>on_complete_done_after()<CR>
-function! s:on_complete_done_after() abort
+inoremap <silent> <Plug>(vsnip_integ:complete_done_for_lsp) <C-r>=<SID>complete_done_for_lsp()<CR>
+function! s:complete_done_for_lsp() abort
   " Check <BS> or <C-h>
   if strlen(getline('.')) < strlen(s:context.line)
     return ''
