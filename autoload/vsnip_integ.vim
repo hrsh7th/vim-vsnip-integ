@@ -1,3 +1,40 @@
+let s:context = {}
+
+"
+" context.completed_item ... v:completed_item
+" context.completion_item ... CompletionItem
+"
+function! vsnip_integ#on_complete_done(context) abort
+  let s:context = {}
+  let s:context.curpos = getcurpos()
+  let s:context.line = getline('.')
+  let s:context.completed_item = a:context.completed_item
+  let s:context.completion_item = a:context.completion_item
+  call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
+endfunction
+
+"
+" s:on_complete_done_after
+"
+inoremap <silent> <Plug>(vsnip_integ:on_complete_done_after) <C-r>=<SID>on_complete_done_after()<CR>
+function! s:on_complete_done_after() abort
+  " Check <BS> or <C-h>
+  if strlen(getline('.')) < strlen(s:context.line)
+    return ''
+  endif
+
+  let l:expand_text = vsnip_integ#_#get_expand_text(s:context.completed_item, s:context.completion_item)
+  if strlen(l:expand_text) > 0
+    call vsnip_integ#_#clear_inserted_text(s:context.curpos, s:context.line, s:context.completed_item, s:context.completion_item)
+    call vsnip#anonymous(l:expand_text)
+  endif
+  return ''
+endfunction
+
+"
+" --- TODO Organize public api ... ---
+"
+
 function! vsnip_integ#auto_expand() abort
   if g:vsnip_integ_config.auto_expand
     call vsnip_integ#auto_expand#enable()
