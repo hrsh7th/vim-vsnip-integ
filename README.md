@@ -2,8 +2,8 @@
 
 This plugin provides some plugins integration.
 
-- snippet completion
-- Expand snippet after CompleteDone
+- Snippet completion
+- Snippet expansion
 
 
 # Requirements
@@ -42,13 +42,6 @@ This plugin provides some plugins integration.
 
 #### [vim-mucomplete](https://github.com/lifepillar/vim-mucomplete)
 - Snippet completion.
-
-
-### Other feature
-
-#### `let g:vsnip_integ_config.auto_expand = v:false`
-- Automatic snippet expansion when CompleteDone.
-
 
 
 # Development
