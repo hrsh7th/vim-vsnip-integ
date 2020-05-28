@@ -24,9 +24,12 @@ This plugin provides some plugins integration.
 #### [vim-lamp](https://github.com/hrsh7th/vim-lamp)
 - Support snippet text expansion.
 
-#### [deoplete-lsp](https://github.com/Shougo/deoplete-lsp)
+#### [deoplete.nvim x deoplete-lsp](https://github.com/Shougo/deoplete-lsp)
 - Support snippet text expansion.
 - Support textEdit/additionalTextEdits at CompleteDone.
+
+#### [completion-nvim x neovim builtin-lsp](https://github.com/haorenW1025/completion-nvim)
+- Support snippet text expansion.
 
 #### [LanguageClient-neovim](https://github.com/autozimu/LanguageClient-neovim)
 - Support snippet text expansion.
@@ -41,6 +44,9 @@ This plugin provides some plugins integration.
 - Snippet completion.
 
 #### [vim-mucomplete](https://github.com/lifepillar/vim-mucomplete)
+- Snippet completion.
+
+#### [completion-nvim](https://github.com/haorenW1025/completion-nvim)
 - Snippet completion.
 
 
