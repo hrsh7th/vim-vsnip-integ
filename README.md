@@ -9,6 +9,7 @@ This plugin provides some plugins integration.
 # Requirements
 
 - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
+	- You should set [mapping](https://github.com/hrsh7th/vim-vsnip/blob/master/README.md#2-settingread).
 
 
 # Integrations
@@ -24,7 +25,11 @@ This plugin provides some plugins integration.
 #### [vim-lamp](https://github.com/hrsh7th/vim-lamp)
 - Support snippet text expansion.
 
-#### [deoplete.nvim x deoplete-lsp](https://github.com/Shougo/deoplete-lsp)
+#### [neovim builtin-lsp omnifunc](https://github.com/neovim/neovim)
+- Support snippet text expansion.
+- Support textEdit/additionalTextEdits at CompleteDone.
+
+#### [deoplete-lsp x neovim builtin-lsp](https://github.com/Shougo/deoplete-lsp)
 - Support snippet text expansion.
 - Support textEdit/additionalTextEdits at CompleteDone.
 
@@ -49,26 +54,6 @@ This plugin provides some plugins integration.
 #### [completion-nvim](https://github.com/haorenW1025/completion-nvim)
 - Snippet completion.
 
-
-# Development
-
-### vimrc configuration for nvim builtin lsp
-
-```viml
-lua require'nvim_lsp'.gopls.setup{
-      \   capabilities = {
-      \     textDocument = {
-      \       completion = {
-      \         completionItem = {
-      \           snippetSupport = true
-      \         }
-      \       }
-      \     }
-      \   },
-      \   init_options = {
-      \     usePlaceholders = true,
-      \     completeUnimported = true
-      \   }
-      \ }
-```
+#### [vim-compete](https://github.com/hrsh7th/vim-compete)
+- Snippet completion.
 
