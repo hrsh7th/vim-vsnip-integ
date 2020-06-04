@@ -32,7 +32,8 @@ function! vsnip_integ#on_complete_done_for_lsp(context) abort
   \   'done_line': getline('.'),
   \   'done_pos': getcurpos(),
   \   'completed_item': a:context.completed_item,
-  \   'completion_item': a:context.completion_item
+  \   'completion_item': a:context.completion_item,
+  \   'apply_additional_text_edits': v:false,
   \ }
   call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
 endfunction
@@ -51,6 +52,7 @@ function! vsnip_integ#on_complete_done(completed_item) abort
     \   'done_line': getline('.'),
     \   'done_pos': getcurpos(),
     \   'completed_item': a:completed_item,
+    \   'apply_additional_text_edits': v:true,
     \ })
     call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
   endif
@@ -60,16 +62,30 @@ endfunction
 " on_complete_done_after
 "
 function! s:on_complete_done_after() abort
+  " Fix lnum for external additionalTextEdits
+  let s:context.done_pos[1] = getcurpos()[1]
+
   " Check <BS> or <C-h>
   if strlen(getline('.')) < strlen(s:context.done_line)
     return ''
   endif
 
+  " Remove completed text
   let l:expand_text = s:get_expand_text(s:context)
   if strlen(l:expand_text) > 0
     call s:remove_completed_text(s:context)
+  endif
+
+  " additionalTextEdits
+  if get(s:context, 'apply_additional_text_edits', v:false)
+    call s:apply_additional_text_edits(s:context)
+  endif
+
+  " Expand snippet.
+  if strlen(l:expand_text) > 0
     call vsnip#anonymous(l:expand_text)
   endif
+
   return ''
 endfunction
 
@@ -103,6 +119,30 @@ function! s:get_expand_text(context) abort
 endfunction
 
 "
+" apply_additional_text_edits
+"
+function! s:apply_additional_text_edits(context) abort
+  if type(get(a:context, 'completion_item', v:null)) != type({})
+    return
+  endif
+  if type(get(a:context.completion_item, 'additionalTextEdits', v:null)) != type([])
+    return
+  endif
+  if len(a:context.completion_item.additionalTextEdits) == 0
+    return
+  endif
+
+  " Special ignore case (Some lsp clients will expand additionalTextEdits by itself).
+  for l:id in ['lcn', 'vimlsp', 'lamp', 'completion-nvim']
+    if index(s:context.sources, l:id) >= 0 && vsnip_integ#detection#exists(l:id)
+      return
+    endif
+  endfor
+
+  call s:TextEdit.apply(bufnr('%'), a:context.completion_item.additionalTextEdits)
+endfunction
+
+"
 " remove_completed_text
 "
 function! s:remove_completed_text(context) abort
@@ -127,7 +167,7 @@ function! s:remove_completed_text(context) abort
         \ }
 
   " Support `textEdit` range for LSP CompletionItem.
-  " TODO: Need `complete_position` that sent to the server for support
+  " TODO: Need `complete_position` support.
   if !empty(l:completion_item) && has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
     let l:range.start.character = l:completion_item.textEdit.range.start.character
     let l:range.end.character = max([l:range.end.character, l:completion_item.textEdit.range.end.character])
@@ -162,6 +202,30 @@ function! s:extract_user_data(completed_item) abort
       return {}
     endif
 
+    " deoplete-lsp, LanguageClient-neovim
+    if s:has_key(l:user_data, 'lspitem')
+      return {
+      \   'sources': ['deoplete-lsp', 'lcn'],
+      \   'completion_item': l:user_data.lspitem
+      \ }
+    endif
+
+    " neovim built-in
+    if s:has_key(l:user_data, 'nvim') && s:has_key(l:user_data.nvim, 'lsp') && s:has_key(l:user_data.nvim.lsp, 'completion_item')
+      return {
+      \   'sources': ['nvim', 'completion-nvim'],
+      \   'completion_item': l:user_data.nvim.lsp.completion_item
+      \ }
+    endif
+
+    " neovim built-in
+    if s:has_key(l:user_data, 'lsp') && s:has_key(l:user_data.lsp, 'completion_item')
+      return {
+      \   'sources': ['nvim', 'completion-nvim'],
+      \   'completion_item': l:user_data.lsp.completion_item
+      \ }
+    endif
+
     " vim-lsc
     if s:has_key(l:user_data, 'snippet') && s:has_key(l:user_data, 'snippet_trigger')
       return {
@@ -175,30 +239,6 @@ function! s:extract_user_data(completed_item) abort
       return {
       \   'sources': ['vsnip'],
       \   'snippet': join(l:user_data.vsnip.snippet, "\n")
-      \ }
-    endif
-
-    " deoplete-lsp, LanguageClient-neovim
-    if s:has_key(l:user_data, 'lspitem')
-      return {
-      \   'sources': ['deoplete-lsp', 'lcn'],
-      \   'completion_item': l:user_data.lspitem
-      \ }
-    endif
-
-    " neovim built-in
-    if s:has_key(l:user_data, 'nvim') && s:has_key(l:user_data.nvim, 'lsp') && s:has_key(l:user_data.nvim.lsp, 'completion_item')
-      return {
-      \   'sources': ['nvim'],
-      \   'completion_item': l:user_data.nvim.lsp.completion_item
-      \ }
-    endif
-
-    " neovim built-in
-    if s:has_key(l:user_data, 'lsp') && s:has_key(l:user_data.lsp, 'completion_item')
-      return {
-      \   'sources': ['nvim'],
-      \   'completion_item': l:user_data.lsp.completion_item
       \ }
     endif
   catch /.*/
