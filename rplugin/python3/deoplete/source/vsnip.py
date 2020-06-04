@@ -15,29 +15,6 @@ class Source(Base):
     def gather_candidates(self, context):
         config = self.vim.vars['vsnip_integ_config']
         if config and config['deoplete']:
-            return self.to_candidates(self.vim.call('vsnip#source#find', context['filetype']))
+            return self.vim.call('vsnip#get_complete_items', context['bufnr'])
         return []
-
-    def to_candidates(self, sources):
-        candidates = []
-
-        for source in sources:
-            for snippet in source:
-                for prefix in snippet['prefix']:
-                    candidate = {
-                        'word': prefix,
-                        'abbr': prefix,
-                        'menu': 'Snippet',
-                        'info': snippet['label'],
-                        'user_data': json.dumps({
-                          'vsnip_integ': {
-                            'snippet': snippet['body']
-                          }
-                        })
-                    }
-                    if 'description' in snippet and len(snippet['description']) > 0:
-                        candidate['info'] += ': {}'.format(snippet['description'])
-                    candidates.append(candidate)
-
-        return candidates
 

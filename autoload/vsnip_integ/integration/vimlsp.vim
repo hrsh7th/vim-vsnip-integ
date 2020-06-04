@@ -1,4 +1,7 @@
-function! vsnip_integ#vim_lsp#enable() abort
+"
+" vsnip_integ#integration#vimlsp#attach
+"
+function! vsnip_integ#integration#vimlsp#attach() abort
   let g:lsp_text_edit_enabled = v:true
   let g:lsp_get_supported_capabilities = [function('s:get_supported_capabilities')]
   let g:lsp_snippet_expand = [{ option -> vsnip#anonymous(option.snippet) }]

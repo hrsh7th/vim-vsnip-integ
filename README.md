@@ -2,8 +2,8 @@
 
 This plugin provides some plugins integration.
 
-- snippet completion
-- Expand snippet after CompleteDone
+- Snippet completion
+- Snippet expansion
 
 
 # Requirements
@@ -48,13 +48,6 @@ This plugin provides some plugins integration.
 
 #### [completion-nvim](https://github.com/haorenW1025/completion-nvim)
 - Snippet completion.
-
-
-### Other feature
-
-#### `let g:vsnip_integ_config.auto_expand = v:false`
-- Automatic snippet expansion when CompleteDone.
-
 
 
 # Development
