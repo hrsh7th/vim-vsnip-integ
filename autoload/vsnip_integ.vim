@@ -106,12 +106,13 @@ function! s:get_expand_text(context) abort
 
   " LSP CompletionItem.
   if l:completion_item isnot# v:null
-    if get(l:completion_item, 'insertTextFormat', 0) == 2
-      if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
-        return l:completion_item.textEdit.newText
-      elseif has_key(l:completion_item, 'insertText') && type(l:completion_item.insertText) == type('')
-        return l:completion_item.insertText
-      endif
+    if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
+      let l:word = l:completion_item.textEdit.newText
+    elseif has_key(l:completion_item, 'insertText') && type(l:completion_item.insertText) == type('')
+      let l:word = l:completion_item.insertText
+    endif
+    if get(l:completion_item, 'insertTextFormat', 1) == 2 || l:word !=# l:completed_item.word
+      return l:word
     endif
   endif
 
