@@ -13,8 +13,5 @@ class Source(Base):
         self.vars = {}
 
     def gather_candidates(self, context):
-        config = self.vim.vars['vsnip_integ_config']
-        if config and config['deoplete']:
-            return self.vim.call('vsnip#get_complete_items', context['bufnr'])
-        return []
+        return self.vim.call('vsnip#get_complete_items', context['bufnr'])
 
