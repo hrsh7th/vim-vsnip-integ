@@ -1,6 +1,6 @@
 let s:TextEdit = vital#vsnip#import('VS.LSP.TextEdit')
 
-let s:stop = v:false
+let s:skip = v:false
 
 "
 " CompleteDone context.
@@ -19,14 +19,23 @@ let s:context = {
 inoremap <silent> <Plug>(vsnip_integ:on_complete_done_after) <C-r>=<SID>on_complete_done_after()<CR>
 
 "
+" vsnip_integ#skip_complete_done
+"
+function! vsnip_integ#skip_complete_done(...) abort
+  let s:skip = v:true
+  call timer_start(0, { -> execute('let s:skip = v:false') })
+  return get(a:000, 0, '')
+endfunction
+
+"
 " vsnip_integ#on_complete_done_for_lsp
 "
 " Deprecated.
 "
 function! vsnip_integ#on_complete_done_for_lsp(context) abort
-  if s:stop | return | endif
-  let s:stop = v:true
-  call timer_start(0, { -> execute('let s:stop = v:false') })
+  if s:skip | return | endif
+  let s:skip = v:true
+  call timer_start(0, { -> execute('let s:skip = v:false') })
 
   let s:context = {
   \   'done_line': getline('.'),
@@ -42,9 +51,9 @@ endfunction
 " vsnip_integ#on_complete_done
 "
 function! vsnip_integ#on_complete_done(completed_item) abort
-  if s:stop | return | endif
-  let s:stop = v:true
-  call timer_start(0, { -> execute('let s:stop = v:false') })
+  if s:skip | return | endif
+  let s:skip = v:true
+  call timer_start(0, { -> execute('let s:skip = v:false') })
 
   let l:context = s:extract_user_data(a:completed_item)
   if !empty(l:context)

@@ -57,3 +57,15 @@ This plugin provides some plugins integration.
 #### [vim-compete](https://github.com/hrsh7th/vim-compete)
 - Snippet completion.
 
+
+# FAQ
+
+#### How to prevent snippet expansion unexpectedly?
+You can use `vsnip_integ#skip_complete_done('<C-y>')`
+
+For example, the following mapping makes to prevent snippet expansion when you press `<C-y>` explicitly.
+
+```viml
+inoremap <expr> <C-y> vsnip_integ#skip_complete_done('<C-y>')
+```
+

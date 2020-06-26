@@ -11,3 +11,5 @@ augroup vsnip_integ
   autocmd VimEnter * call vsnip_integ#integration#attach()
 augroup END
 
+inoremap <silent> <Plug>(vsnip_integ_skip_complete_done) <C-r>=vsnip_integ#skip_complete_done()<CR>
+
