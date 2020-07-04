@@ -12,7 +12,11 @@ let s:context = {
 \   'done_line': '',
 \   'done_pos': [],
 \   'completed_item': v:null,
+\   'sources': [],
+\
 \   'snippet': '',
+\
+\   'complete_position': {},
 \   'completion_item': v:null,
 \ }
 
@@ -31,9 +35,43 @@ function! vsnip_integ#on_complete_done_for_lsp(context) abort
   let s:context = {
   \   'done_line': getline('.'),
   \   'done_pos': getcurpos(),
+  \   'sources': [],
   \   'completed_item': a:context.completed_item,
   \   'completion_item': a:context.completion_item,
   \   'apply_additional_text_edits': v:false,
+  \ }
+  call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
+endfunction
+
+"
+" vsnip_integ#do_complete_done
+"
+" @param context = {
+"   completed_item: v:completed_item;
+"   completion_item: LSP.CompletionItem;
+"   complete_position?: LSP.Position; // that sent on `textDocument/completion`
+"   apply_additional_text_edits: v:true | v:false;
+" } | {
+"   completed_item: v:completed_item;
+"   snippet: string; // that's format is LSP's snippet format
+" }
+"
+function! vsnip_integ#do_complete_done(context) abort
+  if s:stop | return | endif
+  let s:stop = v:true
+  call timer_start(0, { -> execute('let s:stop = v:false') })
+
+  let s:context = {
+  \   'done_line': getline('.'),
+  \   'done_pos': getcurpos(),
+  \   'completed_item': a:context.completed_item,
+  \   'sources': [],
+  \
+  \   'snippet': get(a:context, 'snippet', v:null),
+  \
+  \   'completion_item': get(a:context, 'completion_item', v:null),
+  \   'complete_position': get(a:context, 'complete_position', v:null),
+  \   'apply_additional_text_edits': get(a:context, 'apply_additional_text_edits', v:false),
   \ }
   call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
 endfunction
@@ -152,6 +190,7 @@ function! s:remove_completed_text(context) abort
   let l:done_pos = a:context.done_pos
   let l:completed_item = a:context.completed_item
   let l:completion_item = get(a:context, 'completion_item', v:null)
+  let l:complete_position = get(a:context, 'complete_position', v:null)
 
   " Remove trigger character.
   call setline('.', l:done_line)
@@ -169,10 +208,14 @@ function! s:remove_completed_text(context) abort
         \ }
 
   " Support `textEdit` range for LSP CompletionItem.
-  " TODO: Need `complete_position` support.
   if !empty(l:completion_item) && has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
     let l:range.start.character = l:completion_item.textEdit.range.start.character
-    let l:range.end.character = max([l:range.end.character, l:completion_item.textEdit.range.end.character])
+    if empty(l:complete_position)
+      let l:range.end.character = max([l:range.end.character, l:completion_item.textEdit.range.end.character])
+    else
+      echomsg string(["'complete_position'", l:complete_position])
+      let l:range.end.character = l:completion_item.textEdit.range.end.character + strchars(l:completed_item.word) - (l:complete_position.character - l:range.start.character)
+    endif
   endif
 
   " Remove range.
