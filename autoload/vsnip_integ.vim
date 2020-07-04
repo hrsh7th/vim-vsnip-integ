@@ -106,6 +106,7 @@ function! s:get_expand_text(context) abort
 
   " LSP CompletionItem.
   if l:completion_item isnot# v:null
+    let l:word = l:completed_item.word
     if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
       let l:word = l:completion_item.textEdit.newText
     elseif has_key(l:completion_item, 'insertText') && type(l:completion_item.insertText) == type('')
