@@ -1,6 +1,7 @@
 let s:TextEdit = vital#vsnip#import('VS.LSP.TextEdit')
 
-let s:stop = v:false
+let s:stop_complete_done = v:false
+let s:stop_complete_done_after = v:false
 
 "
 " CompleteDone context.
@@ -23,24 +24,11 @@ let s:context = {
 inoremap <silent> <Plug>(vsnip_integ:on_complete_done_after) <C-r>=<SID>on_complete_done_after()<CR>
 
 "
-" vsnip_integ#on_complete_done_for_lsp
+" vsnip_integ#skip_complete_done_after
 "
-" Deprecated.
-"
-function! vsnip_integ#on_complete_done_for_lsp(context) abort
-  if s:stop | return | endif
-  let s:stop = v:true
-  call timer_start(0, { -> execute('let s:stop = v:false') })
-
-  let s:context = {
-  \   'done_line': getline('.'),
-  \   'done_pos': getcurpos(),
-  \   'sources': [],
-  \   'completed_item': a:context.completed_item,
-  \   'completion_item': a:context.completion_item,
-  \   'apply_additional_text_edits': v:false,
-  \ }
-  call feedkeys("\<Plug>(vsnip_integ:on_complete_done_after)")
+function! vsnip_integ#skip_complete_done_after() abort
+  let s:stop_complete_done_after = v:true
+  call timer_start(0, { -> execute('let s:stop_complete_done_after = v:false') })
 endfunction
 
 "
@@ -57,9 +45,9 @@ endfunction
 " }
 "
 function! vsnip_integ#do_complete_done(context) abort
-  if s:stop | return | endif
-  let s:stop = v:true
-  call timer_start(0, { -> execute('let s:stop = v:false') })
+  if s:stop_complete_done | return | endif
+  let s:stop_complete_done = v:true
+  call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
 
   let s:context = {
   \   'done_line': getline('.'),
@@ -80,9 +68,9 @@ endfunction
 " vsnip_integ#on_complete_done
 "
 function! vsnip_integ#on_complete_done(completed_item) abort
-  if s:stop | return | endif
-  let s:stop = v:true
-  call timer_start(0, { -> execute('let s:stop = v:false') })
+  if s:stop_complete_done | return | endif
+  let s:stop_complete_done = v:true
+  call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
 
   let l:context = s:extract_user_data(a:completed_item)
   if !empty(l:context)
@@ -100,6 +88,8 @@ endfunction
 " on_complete_done_after
 "
 function! s:on_complete_done_after() abort
+  if s:stop_complete_done_after | return '' | endif
+
   " Fix lnum for external additionalTextEdits
   let s:context.done_pos[1] = getcurpos()[1]
 
