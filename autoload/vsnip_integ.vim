@@ -68,6 +68,10 @@ endfunction
 " vsnip_integ#on_complete_done
 "
 function! vsnip_integ#on_complete_done(completed_item) abort
+  if g:vsnip_integ_disable_on_complete_done
+    return
+  endif
+
   if s:stop_complete_done | return | endif
   let s:stop_complete_done = v:true
   call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
@@ -240,7 +244,7 @@ function! s:extract_user_data(completed_item) abort
     " deoplete-lsp, LanguageClient-neovim
     if s:has_key(l:user_data, 'lspitem')
       return {
-      \   'sources': ['deoplete-lsp', 'lcn'],
+      \   'sources': ['deoplete_lsp', 'lcn'],
       \   'completion_item': l:user_data.lspitem
       \ }
     endif
@@ -248,7 +252,7 @@ function! s:extract_user_data(completed_item) abort
     " neovim built-in
     if s:has_key(l:user_data, 'nvim') && s:has_key(l:user_data.nvim, 'lsp') && s:has_key(l:user_data.nvim.lsp, 'completion_item')
       return {
-      \   'sources': ['nvim', 'completion-nvim'],
+      \   'sources': ['nvim', 'completion_nvim'],
       \   'completion_item': l:user_data.nvim.lsp.completion_item
       \ }
     endif
@@ -256,7 +260,7 @@ function! s:extract_user_data(completed_item) abort
     " neovim built-in
     if s:has_key(l:user_data, 'lsp') && s:has_key(l:user_data.lsp, 'completion_item')
       return {
-      \   'sources': ['nvim', 'completion-nvim'],
+      \   'sources': ['nvim', 'completion_nvim'],
       \   'completion_item': l:user_data.lsp.completion_item
       \ }
     endif
