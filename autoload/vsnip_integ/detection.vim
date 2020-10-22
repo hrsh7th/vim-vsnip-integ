@@ -7,8 +7,8 @@ let s:definition = {
 \   'asyncomplete': { -> exists('g:asyncomplete_loaded') },
 \   'mucomplete': { -> exists('g:loaded_mucomplete') },
 \   'compete': { -> exists('g:loaded_compete') },
-\   'deoplete-lsp': { -> s:runtimepath('lua/deoplete.lua') },
-\   'completion-nvim': { -> exists('g:loaded_completion') },
+\   'deoplete_lsp': { -> s:runtimepath('lua/deoplete.lua') },
+\   'completion_nvim': { -> exists('g:loaded_completion') },
 \ }
 
 let s:cache = {}
