@@ -140,12 +140,18 @@ function! s:get_expand_text(context) abort
   if l:completion_item isnot# v:null
     let l:word = l:completed_item.word
     if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
-      let l:word = l:completion_item.textEdit.newText
+      let l:text_edit = copy(l:completion_item.textEdit)
+      let l:text_edit.range.start.character = min([l:done_pos[2] + l:done_pos[3] - strchars(l:word) - 1, l:text_edit.range.start.character])
+      let l:text_edit.range.end.character = max([(l:done_pos[2] + l:done_pos[3]) - 1, l:text_edit.range.end.character])
+      let l:text_edit_before = strcharpart(l:done_line, 0, l:completion_item.textEdit.range.start.character)
+      let l:text_edit_after = strcharpart(l:done_line, l:completion_item.textEdit.range.end.character, strchars(l:done_line) - l:completion_item.textEdit.range.end.character)
+      if l:done_line !=# l:text_edit_before . s:trim_unmeaning_tabstop(l:completion_item.textEdit.newText) . l:text_edit_after
+        return l:completion_item.textEdit.newText
+      endif
     elseif has_key(l:completion_item, 'insertText') && type(l:completion_item.insertText) == type('')
-      let l:word = l:completion_item.insertText
-    endif
-    if get(l:completion_item, 'insertTextFormat', 1) == 2 || l:word !=# l:completed_item.word
-      return l:word
+      if l:word !=# s:trim_unmeaning_tabstop(l:completion_item.insertText)
+        return l:completion_item.insertText
+      endif
     endif
   endif
 
@@ -203,20 +209,15 @@ function! s:remove_completed_text(context) abort
 
   " Support `textEdit` range for LSP CompletionItem.
   if !empty(l:completion_item) && has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
-    let l:range.start.character = l:completion_item.textEdit.range.start.character
-    if empty(l:complete_position)
-      let l:range.end.character = max([l:range.end.character, l:completion_item.textEdit.range.end.character])
-    else
-      echomsg string(["'complete_position'", l:complete_position])
-      let l:range.end.character = l:completion_item.textEdit.range.end.character + strchars(l:completed_item.word) - (l:complete_position.character - l:range.start.character)
-    endif
+    let l:range.start.character = min([l:range.start.character, l:completion_item.textEdit.range.start.character])
+    let l:range.end.character = max([l:range.end.character, l:completion_item.textEdit.range.end.character])
   endif
 
   " Remove range.
   call s:TextEdit.apply(bufnr('%'), [{
-        \   'range': l:range,
-        \   'newText': ''
-        \ }])
+  \   'range': l:range,
+  \   'newText': ''
+  \ }])
   call cursor([l:range.start.line + 1, l:range.start.character + 1])
 endfunction
 
@@ -297,5 +298,12 @@ function! s:has_key(maybe_dict, key) abort
     return v:false
   endif
   return has_key(a:maybe_dict, a:key)
+endfunction
+
+"
+" trim_unmeaning_tabstop
+"
+function! s:trim_unmeaning_tabstop(text) abort
+  return substitute(a:text, '\%(\$0\|\${0}\)$', '', 'g')
 endfunction
 
