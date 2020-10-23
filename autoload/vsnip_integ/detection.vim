@@ -6,7 +6,6 @@ let s:definition = {
 \   'lamp': { -> exists('g:loaded_lamp') },
 \   'asyncomplete': { -> exists('g:asyncomplete_loaded') },
 \   'mucomplete': { -> exists('g:loaded_mucomplete') },
-\   'compete': { -> exists('g:loaded_compete') },
 \   'deoplete_lsp': { -> s:runtimepath('lua/deoplete.lua') },
 \   'completion_nvim': { -> exists('g:loaded_completion') },
 \ }

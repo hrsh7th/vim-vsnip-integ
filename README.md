@@ -54,6 +54,3 @@ This plugin provides some plugins integration.
 #### [completion-nvim](https://github.com/haorenW1025/completion-nvim)
 - Snippet completion.
 
-#### [vim-compete](https://github.com/hrsh7th/vim-compete)
-- Snippet completion.
-
