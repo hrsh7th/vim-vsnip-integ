@@ -6,70 +6,23 @@ vim-vsnip integrations.
 ==============================================================================
 CONTENTS                                                *vsnip-integ-contents*
 
-VARIABLE                                                |vsnip-integ-variable|
+INSTALL                                                  |vsnip-integ-install|
 
 
 
 ==============================================================================
-VARIABLE                                                *vsnip-integ-variable*
+INSTALL                                                  *vsnip-integ-install*
+
+You can use your favorite plugin manager.
 
 >
-  let g:vsnip_integ_config.auto_expand = v:false
+  " dein.vim
+  call dein#add('hrsh7th/vim-vsnip-integ')
+
+  " vim-plug
+  Plug 'hrsh7th/vim-vsnip-integ'
+
+  " neobundle
+  NeoBundle 'hrsh7th/vim-vsnip-integ'
 <
-    Enable or disable auto expansion for snippet completion.
-
->
-  let g:vsnip_integ_config.vim_lsp = v:true
-<
-    Enable or disable |vim-lsp| integration.
-
-
->
-  let g:vsnip_integ_config.vim_lsc = v:true
-<
-    Enable or disable |vim-lsc| integration.
-
-
->
-  let g:vsnip_integ_config.lamp = v:true
-<
-    Enable or disable |lamp| integration.
-
-
->
-  let g:vsnip_integ_config.deoplete_lsp = v:true
-<
-    Enable or disable |deoplete-lsp| integration.
-
-
->
-  let g:vsnip_integ_config.nvim_lsp = v:false
-<
-    Enable or disable |nvim-lsp|'s omnifunc integration.
-
-    NOTE: This integration currently not working. It is reserved flag.
-
-
->
-  let g:vsnip_integ_config.language_client_neovim = v:true
-<
-    Enable or disable |language-client-neovim| integration.
-
-
->
-  let g:vsnip_integ_config.asyncomplete = v:true
-<
-    Enable or disable |asyncomplete| integration.
-
-
->
-  let g:vsnip_integ_config.deoplete = v:true
-<
-    Enable or disable |deoplete| integration.
-
-
->
-  let g:vsnip_integ_config.mucomplete = v:true
-<
-    Enable or disable |mucomplete| integration.
 

@@ -4,7 +4,6 @@ endif
 let g:loaded_vsnip_integ = v:true
 
 let g:vsnip_integ_debug = get(g:, 'vsnip_integ_debug', v:false)
-let g:vsnip_integ_disable_on_complete_done = get(g:, 'vsnip_integ_disable_on_complete_done', v:false)
 
 augroup vsnip_integ
   autocmd!

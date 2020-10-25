@@ -68,16 +68,20 @@ endfunction
 " vsnip_integ#on_complete_done
 "
 function! vsnip_integ#on_complete_done(completed_item) abort
-  if g:vsnip_integ_disable_on_complete_done
-    return
-  endif
-
-  if s:stop_complete_done | return | endif
-  let s:stop_complete_done = v:true
-  call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
-
   let l:context = s:extract_user_data(a:completed_item)
   if !empty(l:context)
+
+    " disable `on_complete_done` for completion-nvim.
+    if index(l:context.sources, 'completion_nvim') >= 0
+      if vsnip_integ#detection#exists('completion_nvim')
+        return
+      endif
+    endif
+
+    if s:stop_complete_done | return | endif
+    let s:stop_complete_done = v:true
+    call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
+
     let s:context = extend(l:context, {
     \   'done_line': getline('.'),
     \   'done_pos': getcurpos(),
