@@ -11,3 +11,7 @@ augroup vsnip_integ
   autocmd CompleteDone * call vsnip_integ#on_complete_done(v:completed_item)
 augroup END
 
+if has('nvim')
+  call luaeval('require"vsnip_integ"')
+endif
+
