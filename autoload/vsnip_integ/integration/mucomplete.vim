@@ -20,8 +20,10 @@ function! vsnip_integ#integration#mucomplete#complete() abort
   endif
 
   let l:candidates = vsnip#get_complete_items(bufnr('%'))
+  let l:match = map(l:candidates, { _, val -> (l:keyword == val["word"][0:strlen(l:keyword)-1]) ? val : ''})
+  
   if !empty(l:candidates)
-    call complete(col('.') - strlen(l:keyword), l:candidates)
+    call complete(col('.') - strlen(l:keyword), l:match)
   endif
 
   return ''
