@@ -78,6 +78,13 @@ function! vsnip_integ#on_complete_done(completed_item) abort
       endif
     endif
 
+    " disable `on_complete_done` for nvim-compe.
+    if index(l:context.sources, 'compe') >= 0
+      if vsnip_integ#detection#exists('compe')
+        return
+      endif
+    endif
+
     if s:stop_complete_done | return | endif
     let s:stop_complete_done = v:true
     call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
