@@ -8,8 +8,9 @@ let s:definition = {
 \   'mucomplete': { -> exists('g:loaded_mucomplete') },
 \   'deoplete_lsp': { -> s:runtimepath('lua/deoplete.lua') },
 \   'completion_nvim': { -> exists('g:loaded_completion') },
-\   'ddc': { -> !exists('g:loaded_ddc_vsnip') },
+\   'ddc': { -> s:runtimepath("autoload/ddc.vim") },
 \ }
+
 
 let s:cache = {}
 
