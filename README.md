@@ -54,3 +54,5 @@ This plugin provides some plugins integration.
 #### [completion-nvim](https://github.com/haorenW1025/completion-nvim)
 - Snippet completion.
 
+#### [ddc.vim](https://github.com/Shougo/ddc.vim)
+- Snippet completion.
