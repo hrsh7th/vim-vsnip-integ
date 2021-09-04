@@ -1,6 +1,5 @@
 let s:definition = {
 \   'vimlsp': { -> exists('g:lsp_loaded') },
-\   'nvimlsp': { -> s:runtimepath('lua/vim/lsp.lua') },
 \   'lsc': { -> exists('g:loaded_lsc') },
 \   'lcn': { -> exists('g:LanguageClient_serverCommands') },
 \   'lamp': { -> exists('g:loaded_lamp') },
