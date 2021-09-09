@@ -82,6 +82,9 @@ function! vsnip_integ#on_complete_done(completed_item) abort
     let s:stop_complete_done = v:true
     call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
 
+    " Remove v:completed_item
+    call complete(1, [])
+
     let s:context = extend(l:context, {
     \   'done_line': getline('.'),
     \   'done_pos': getcurpos(),
@@ -121,9 +124,6 @@ function! s:on_complete_done_after() abort
   if strlen(l:expand_text) > 0
     call vsnip#anonymous(l:expand_text)
   endif
-
-  " Remove v:completed_item
-  call complete(1, [])
 
   return ''
 endfunction
