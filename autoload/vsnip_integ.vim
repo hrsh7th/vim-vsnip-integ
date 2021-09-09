@@ -122,6 +122,9 @@ function! s:on_complete_done_after() abort
     call vsnip#anonymous(l:expand_text)
   endif
 
+  " Remove v:completed_item
+  call complete(1, [])
+
   return ''
 endfunction
 
