@@ -1,10 +1,12 @@
 import {
   BaseSource,
   Candidate,
-} from "https://deno.land/x/ddc_vim@v0.5.0/types.ts";
-import { Denops, fn } from "https://deno.land/x/ddc_vim@v0.5.0/deps.ts#^";
+} from "https://deno.land/x/ddc_vim@v0.14.0/types.ts#^";
+import { Denops, fn } from "https://deno.land/x/ddc_vim@v0.14.0/deps.ts#^";
 
-export class Source extends BaseSource {
+type Params = Record<string, never>;
+
+export class Source extends BaseSource<Params> {
   async gatherCandidates(args: {
     denops: Denops;
   }): Promise<Candidate[]> {
@@ -12,5 +14,9 @@ export class Source extends BaseSource {
       "vsnip#get_complete_items",
       await fn.bufnr(args.denops),
     ) as Promise<Candidate[]>;
+  }
+
+  params(): Params {
+    return {};
   }
 }
