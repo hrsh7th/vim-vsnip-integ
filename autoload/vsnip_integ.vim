@@ -70,7 +70,6 @@ endfunction
 function! vsnip_integ#on_complete_done(completed_item) abort
   let l:context = s:extract_user_data(a:completed_item)
   if !empty(l:context)
-
     " disable `on_complete_done` for completion-nvim.
     if index(l:context.sources, 'completion_nvim') >= 0
       if vsnip_integ#detection#exists('completion_nvim')
