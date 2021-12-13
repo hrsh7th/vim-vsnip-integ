@@ -9,7 +9,7 @@ This plugin provides some plugins integration.
 # Requirements
 
 - [vim-vsnip](https://github.com/hrsh7th/vim-vsnip)
-	- You should set [mapping](https://github.com/hrsh7th/vim-vsnip/blob/master/README.md#2-settingread).
+	- You should set [mapping](https://github.com/hrsh7th/vim-vsnip/blob/master/README.md#2-setting).
 
 
 # Integrations
