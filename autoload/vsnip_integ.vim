@@ -144,10 +144,10 @@ function! s:get_expand_text(context) abort
   if l:completion_item isnot# v:null
     let l:word = l:completed_item.word
     if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
-      let l:lsp_pos = s:Position.vim_to_lsp('%', [l:done_pos[1], l:done_pos[2] + l:done_pos[3]])
+      let l:lsp_done_pos = s:Position.vim_to_lsp('%', [l:done_pos[1], l:done_pos[2] + l:done_pos[3]])
       let l:text_edit = copy(l:completion_item.textEdit)
-      let l:text_edit.range.start.character = min([l:lsp_pos['character'] - strchars(l:word), l:text_edit.range.start.character])
-      let l:text_edit.range.end.character = max([l:lsp_pos['character'], l:text_edit.range.end.character])
+      let l:text_edit.range.start.character = min([l:lsp_done_pos['character'] - strchars(l:word), l:text_edit.range.start.character])
+      let l:text_edit.range.end.character = max([l:lsp_done_pos['character'], l:text_edit.range.end.character])
       let l:text_edit_before = strcharpart(l:done_line, 0, l:completion_item.textEdit.range.start.character)
       let l:text_edit_after = strcharpart(l:done_line, l:completion_item.textEdit.range.end.character, strchars(l:done_line) - l:completion_item.textEdit.range.end.character)
       if l:done_line !=# l:text_edit_before . s:trim_unmeaning_tabstop(l:completion_item.textEdit.newText) . l:text_edit_after
@@ -196,7 +196,7 @@ function! s:remove_completed_text(context) abort
   let l:completed_item = a:context.completed_item
   let l:completion_item = get(a:context, 'completion_item', v:null)
   let l:complete_position = get(a:context, 'complete_position', v:null)
-  let l:lsp_pos = s:Position.vim_to_lsp('%', [l:done_pos[1], l:done_pos[2] + l:done_pos[3]])
+  let l:lsp_done_pos = s:Position.vim_to_lsp('%', [l:done_pos[1], l:done_pos[2] + l:done_pos[3]])
 
   " Remove trigger character.
   call setline('.', l:done_line)
@@ -204,10 +204,10 @@ function! s:remove_completed_text(context) abort
   " Create range to remove.
   let l:range = {
         \   'start': {
-        \     'line': l:lsp_pos['line'],
-        \     'character': l:lsp_pos['character'] - strchars(l:completed_item.word)
+        \     'line': l:lsp_done_pos['line'],
+        \     'character': l:lsp_done_pos['character'] - strchars(l:completed_item.word)
         \   },
-        \   'end': l:lsp_pos
+        \   'end': l:lsp_done_pos
         \ }
 
   " Support `textEdit` range for LSP CompletionItem.
