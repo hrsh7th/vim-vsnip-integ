@@ -251,6 +251,13 @@ function! s:extract_user_data(completed_item) abort
       return {}
     endif
 
+    if vsnip_integ#detection#exists('yegappan_lsp') && has_key(l:user_data, 'label')
+      return {
+      \   'sources': ['yegappan_lsp'],
+      \   'completion_item': l:user_data
+      \ }
+    endif
+
     " deoplete-lsp, LanguageClient-neovim
     if s:has_key(l:user_data, 'lspitem')
       return {

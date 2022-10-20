@@ -8,6 +8,7 @@ let s:definition = {
 \   'deoplete_lsp': { -> s:runtimepath('lua/deoplete.lua') },
 \   'completion_nvim': { -> exists('g:loaded_completion') },
 \   'ddc': { -> s:runtimepath("autoload/ddc.vim") },
+\   'yegappan_lsp': { -> s:runtimepath('autoload/lsp/lspserver.vim') },
 \ }
 
 
