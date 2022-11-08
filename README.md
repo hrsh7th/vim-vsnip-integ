@@ -57,5 +57,5 @@ This plugin provides some plugins integration.
 #### [ddc.vim](https://github.com/Shougo/ddc.vim)
 - Snippet completion.
 - ddc.vim remove duplicated keyword by default.  
-If you want to list up both of them, please add `'dup': v:true` .
+If you want to list up both of them, please add `'dup': 'keep'` .
 
