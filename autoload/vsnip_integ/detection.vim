@@ -2,11 +2,8 @@ let s:definition = {
 \   'vimlsp': { -> exists('g:lsp_loaded') },
 \   'lsc': { -> exists('g:loaded_lsc') },
 \   'lcn': { -> exists('g:LanguageClient_serverCommands') },
-\   'lamp': { -> exists('g:loaded_lamp') },
 \   'asyncomplete': { -> exists('g:asyncomplete_loaded') },
 \   'mucomplete': { -> exists('g:loaded_mucomplete') },
-\   'deoplete_lsp': { -> s:runtimepath('lua/deoplete.lua') },
-\   'completion_nvim': { -> exists('g:loaded_completion') },
 \   'ddc': { -> s:runtimepath("autoload/ddc.vim") },
 \   'yegappan_lsp': { -> s:runtimepath('autoload/lsp/lspserver.vim') },
 \ }

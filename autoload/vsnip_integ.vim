@@ -71,13 +71,6 @@ endfunction
 function! vsnip_integ#on_complete_done(completed_item) abort
   let l:context = s:extract_user_data(a:completed_item)
   if !empty(l:context)
-    " disable `on_complete_done` for completion-nvim.
-    if index(l:context.sources, 'completion_nvim') >= 0
-      if vsnip_integ#detection#exists('completion_nvim')
-        return
-      endif
-    endif
-
     if s:stop_complete_done | return | endif
     let s:stop_complete_done = v:true
     call timer_start(0, { -> execute('let s:stop_complete_done = v:false') })
@@ -178,7 +171,7 @@ function! s:apply_additional_text_edits(context) abort
   endif
 
   " Special ignore case (Some lsp clients will expand additionalTextEdits by itself).
-  for l:id in ['lcn', 'vimlsp', 'lamp', 'completion-nvim']
+  for l:id in ['lcn', 'vimlsp']
     if index(s:context.sources, l:id) >= 0 && vsnip_integ#detection#exists(l:id)
       return
     endif
@@ -258,10 +251,10 @@ function! s:extract_user_data(completed_item) abort
       \ }
     endif
 
-    " deoplete-lsp, LanguageClient-neovim
+    " LanguageClient-neovim
     if s:has_key(l:user_data, 'lspitem')
       return {
-      \   'sources': ['deoplete_lsp', 'lcn'],
+      \   'sources': ['lcn'],
       \   'completion_item': l:user_data.lspitem
       \ }
     endif
@@ -269,7 +262,7 @@ function! s:extract_user_data(completed_item) abort
     " neovim built-in
     if s:has_key(l:user_data, 'nvim') && s:has_key(l:user_data.nvim, 'lsp') && s:has_key(l:user_data.nvim.lsp, 'completion_item')
       return {
-      \   'sources': ['nvim', 'completion_nvim'],
+      \   'sources': ['nvim'],
       \   'completion_item': l:user_data.nvim.lsp.completion_item
       \ }
     endif
@@ -277,7 +270,7 @@ function! s:extract_user_data(completed_item) abort
     " neovim built-in
     if s:has_key(l:user_data, 'lsp') && s:has_key(l:user_data.lsp, 'completion_item')
       return {
-      \   'sources': ['nvim', 'completion_nvim'],
+      \   'sources': ['nvim'],
       \   'completion_item': l:user_data.lsp.completion_item
       \ }
     endif
