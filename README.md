@@ -43,6 +43,8 @@ This plugin provides some plugins integration.
 
 #### [ddc.vim](https://github.com/Shougo/ddc.vim)
 - Snippet completion.
-- ddc.vim remove duplicated keyword by default.  
-If you want to list up both of them, please add `'dup': 'keep'` .
+- ddc.vim remove duplicated keyword by default.
+If you want to list up both of them, please add `'dup': 'keep'`.
 
+#### [vim-easycompletion](https://github.com/jayli/vim-easycomplete)
+- Snippet completion.
