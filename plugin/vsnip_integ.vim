@@ -4,6 +4,7 @@ endif
 let g:loaded_vsnip_integ = v:true
 
 let g:vsnip_integ_debug = get(g:, 'vsnip_integ_debug', v:false)
+let g:vsnip_integ_confirm_behavior = get(g:, 'vsnip_integ_confirm_behavior', 'insert')
 
 augroup vsnip_integ
   autocmd!
