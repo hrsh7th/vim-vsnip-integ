@@ -8,6 +8,7 @@ CONTENTS                                                *vsnip-integ-contents*
 
 INSTALL                                                  |vsnip-integ-install|
 EXPAMPLE                                                 |vsnip-integ-example|
+VARIABLE                                                 |vsnip-integ-variable|
 
 
 ==============================================================================
@@ -36,3 +37,20 @@ Using vnsip-integ with implemented completion engine by some plugin.
   autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
 <
 
+==============================================================================
+VARIABLE                                                *vsnip-integ-variable*
+
+                                              *g:vsnip_integ_confirm_behavior*
+g:vsnip_integ_confirm_behavior		("insert"|"replace")
+	- "insert":	Inserts the selected item and moves adjacent text to
+			the right (default).
+	- "replace":	Replaces adjacent text with the selected item.
+
+                                                *g:vsnip_integ_create_autocmd*
+g:vsnip_integ_create_autocmd	(boolean)
+	Creates autocmd to expand snippets in |CompleteDone|.
+
+	Default: v:true
+
+
+vim:tw=78:ts=8:ft=help:norl:noet:fen:noet:
