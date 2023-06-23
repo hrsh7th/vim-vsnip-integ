@@ -139,10 +139,15 @@ function! s:get_expand_text(context) abort
     if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
       let l:lsp_done_pos = s:Position.vim_to_lsp('%', [l:done_pos[1], l:done_pos[2] + l:done_pos[3]])
       let l:text_edit = copy(l:completion_item.textEdit)
-      let l:text_edit.range.start.character = min([l:lsp_done_pos['character'] - strchars(l:word), l:text_edit.range.start.character])
-      let l:text_edit.range.end.character = max([l:lsp_done_pos['character'], l:text_edit.range.end.character])
-      let l:text_edit_before = strcharpart(l:done_line, 0, l:completion_item.textEdit.range.start.character)
-      let l:text_edit_after = strcharpart(l:done_line, l:completion_item.textEdit.range.end.character, strchars(l:done_line) - l:completion_item.textEdit.range.end.character)
+      " TextEdit | InsertReplaceEdit
+      let l:range = has_key(l:text_edit, 'range')
+            \ ? l:text_edit.range
+            \ : g:vsnip_integ_confirm_behavior ==# 'insert'
+            \ ? l:text_edit.insert : l:text_edit.replace
+      let l:range.start.character = min([l:lsp_done_pos['character'] - strchars(l:word), l:range.start.character])
+      let l:range.end.character = max([l:lsp_done_pos['character'], l:range.end.character])
+      let l:text_edit_before = strcharpart(l:done_line, 0, l:range.start.character)
+      let l:text_edit_after = strcharpart(l:done_line, l:range.end.character, strchars(l:done_line) - l:range.end.character)
       if l:done_line !=# l:text_edit_before . s:trim_unmeaning_tabstop(l:completion_item.textEdit.newText) . l:text_edit_after
         return l:completion_item.textEdit.newText
       endif
