@@ -139,11 +139,7 @@ function! s:get_expand_text(context) abort
     if has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
       let l:lsp_done_pos = s:Position.vim_to_lsp('%', [l:done_pos[1], l:done_pos[2] + l:done_pos[3]])
       let l:text_edit = copy(l:completion_item.textEdit)
-      " TextEdit | InsertReplaceEdit
-      let l:range = has_key(l:text_edit, 'range')
-            \ ? l:text_edit.range
-            \ : g:vsnip_integ_confirm_behavior ==# 'insert'
-            \ ? l:text_edit.insert : l:text_edit.replace
+      let l:range = s:get_range(l:text_edit)
       let l:range.start.character = min([l:lsp_done_pos['character'] - strchars(l:word), l:range.start.character])
       let l:range.end.character = max([l:lsp_done_pos['character'], l:range.end.character])
       let l:text_edit_before = strcharpart(l:done_line, 0, l:range.start.character)
@@ -159,6 +155,14 @@ function! s:get_expand_text(context) abort
   endif
 
   return ''
+endfunction
+
+function! s:get_range(text_edit) abort
+  " TextEdit | InsertReplaceEdit
+  return has_key(a:text_edit, 'range')
+        \ ? a:text_edit.range
+        \ : g:vsnip_integ_confirm_behavior ==# 'insert'
+        \ ? a:text_edit.insert : a:text_edit.replace
 endfunction
 
 "
@@ -210,8 +214,9 @@ function! s:remove_completed_text(context) abort
 
   " Support `textEdit` range for LSP CompletionItem.
   if !empty(l:completion_item) && has_key(l:completion_item, 'textEdit') && type(l:completion_item.textEdit) == type({})
-    let l:range.start.character = min([l:range.start.character, l:completion_item.textEdit.range.start.character])
-    let l:range.end.character = max([l:range.end.character, l:completion_item.textEdit.range.end.character])
+    let l:lsp_range = s:get_range(l:completion_item.textEdit)
+    let l:range.start.character = min([l:range.start.character, l:lsp_range.start.character])
+    let l:range.end.character = max([l:range.end.character, l:lsp_range.end.character])
   endif
 
   " Remove range.
