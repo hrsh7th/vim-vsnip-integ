@@ -32,10 +32,6 @@ EXAMPLE                                                 *vsnip-integ-example*
 
 Using vnsip-integ with implemented completion engine by some plugin.
 
->
-  " Shougo/pum.vim
-  autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
-<
 
 ==============================================================================
 VARIABLE                                                *vsnip-integ-variable*
@@ -48,7 +44,7 @@ g:vsnip_integ_confirm_behavior		("insert"|"replace")
 
                                                 *g:vsnip_integ_create_autocmd*
 g:vsnip_integ_create_autocmd	(boolean)
-	Creates autocmd to expand snippets in |CompleteDone|.
+	Creates autocmd to expand snippets in |CompleteDone| or |CompleteDonePre|.
 
 	Default: v:true
 

@@ -41,10 +41,9 @@ This plugin provides some plugins integration.
 #### [vim-mucomplete](https://github.com/lifepillar/vim-mucomplete)
 - Snippet completion.
 
-#### [ddc.vim](https://github.com/Shougo/ddc.vim)
-- Snippet completion.
-- ddc.vim remove duplicated keyword by default.
-If you want to list up both of them, please add `'dup': 'keep'`.
-
 #### [vim-easycompletion](https://github.com/jayli/vim-easycomplete)
 - Snippet completion.
+
+#### [ddc.vim](https://github.com/Shougo/ddc.vim)
+- This plugin doesn't support ddc.vim.
+- Users of ddc.vim should use [ddc-source-vsnip](https://github.com/uga-rosa/ddc-source-vsnip).
