@@ -241,12 +241,6 @@ function! s:extract_user_data(completed_item) abort
     let l:user_data = a:completed_item.user_data
     if type(l:user_data) == type('')
       let l:user_data = json_decode(l:user_data)
-    elseif s:has_key(l:user_data, 'lspitem')
-      " ddc-nvim-lsp
-      return {
-      \   'sources': ['ddc'],
-      \   'completion_item': json_decode(l:user_data.lspitem)
-      \ }
     endif
 
     " Support dict only.
