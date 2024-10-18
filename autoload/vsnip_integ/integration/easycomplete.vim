@@ -33,17 +33,18 @@ function! s:completor(opt, ctx) abort
   return v:true
 endfunction
 
-let s:kindflag_snip = get(g:, 'easycomplete_kindflag_snip', 's')
-let s:menuflag_snip = get(g:, 'easycomplete_menuflag_snip', '[S]')
+let s:kindflag_vsnip = get(g:, 'easycomplete_kindflag_vsnip', 's')
+let s:menuflag_vsnip = get(g:, 'easycomplete_menuflag_vsnip', '[V]')
 
 function! s:complete_handler(typing, name, ctx, startcol) abort
-  let suggestions = vsnip#get_complete_items(a:ctx['bufnr'])
-  for snippet in suggestions
+  let suggestions = []
+  for snippet in vsnip#get_complete_items(a:ctx['bufnr'])
     let menu = substitute(snippet.menu, '^\[.*\] ', '', '')
-    call extend(snippet, {
+    call add(suggestions, {
+          \ 'word': snippet.word,
           \ 'abbr': snippet.abbr . '~',
-          \ 'kind': s:kindflag_snip,
-          \ 'menu': s:menuflag_snip . ' ' . menu,
+          \ 'kind': s:kindflag_vsnip,
+          \ 'menu': s:menuflag_vsnip . ' ' . menu,
           \ 'info': ['Snippet: ' . menu, '-----'] + json_decode(snippet.user_data).vsnip.snippet,
           \ })
   endfor
