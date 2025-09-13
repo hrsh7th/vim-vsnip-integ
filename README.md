@@ -47,3 +47,6 @@ This plugin provides some plugins integration.
 #### [ddc.vim](https://github.com/Shougo/ddc.vim)
 - This plugin doesn't support ddc.vim.
 - Users of ddc.vim should use [ddc-source-vsnip](https://github.com/uga-rosa/ddc-source-vsnip).
+
+#### [VimComplete](https://github.com/girishji/vimcomplete)
+- Snippet completion.
