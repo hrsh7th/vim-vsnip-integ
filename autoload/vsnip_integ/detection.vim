@@ -5,7 +5,7 @@ let s:definition = {
 \   'asyncomplete': { -> exists('g:asyncomplete_loaded') },
 \   'mucomplete': { -> exists('g:loaded_mucomplete') },
 \   'easycomplete': { -> exists('g:easycomplete_default_plugin_init') },
-\   'yegappan_lsp': { -> s:runtimepath('autoload/lsp/lspserver.vim') },
+\   'yegappan_lsp': { -> exists('*LspOptionsSet') },
 \ }
 
 
@@ -27,11 +27,3 @@ function! vsnip_integ#detection#exists(id) abort
   endif
   return s:cache[a:id]
 endfunction
-
-"
-" runtimepath
-"
-function! s:runtimepath(path) abort
-  return !empty(globpath(&runtimepath, a:path))
-endfunction
-
